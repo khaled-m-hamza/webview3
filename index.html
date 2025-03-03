@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sound Favorites</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #e6f7ff;
+      padding: 15px;
+      touch-action: manipulation;
+    }
+    
+    .sound-button {
+      background-color: white;
+      border-radius: 30px;
+      padding: 6px 15px;
+      margin: 5px;
+      border: 1px solid #dee2e6;
+      transition: all 0.2s;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      color: #1a3b5d;
+      font-size: 0.9rem;
+    }
+    
+    .sound-button:hover {
+      border-color: #1a3b5d;
+    }
+    
+    .sound-button.selected {
+      background-color: #d4edff;
+      border-color: #1a3b5d;
+    }
+    
+    .icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+    
+    .get-started-btn {
+      background-color: #4e8cff;
+      color: white;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      padding: 10px 25px;
+      margin-top: 15px;
+      border: none;
+      transition: all 0.2s;
+      width: 80%;
+      max-width: 300px;
+    }
+    
+    .get-started-btn:hover {
+      background-color: #3e7bef;
+    }
+    
+    .main-title {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #1a3b5d;
+      margin-bottom: 15px;
+    }
+    
+    .sound-container {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    
+    /* Sound cards page styling */
+    .sound-card {
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 15px;
+      
+      transition: transform 0.2s;
+      height: 100%;
+    }
+    
+    .sound-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .sound-image {
+      height: 150px;
+      overflow: hidden;
+      position: relative;
+      
+    }
+    
+    .sound-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    
+    .sound-title {
+      padding: 10px;
+      font-weight: bold;
+      text-align: center;
+      font-size: 1rem;
+      color: #222; /* Darker text color for better contrast */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Modified for smaller screens */
+    @media (max-width: 576px) {
+      .sound-image {
+        height: 120px;
+      }
+      
+      .sound-title {
+        font-size: 0.9rem;
+        padding: 8px;
+        
+      }
+    }
+    
+    .selected-sounds-container {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .selected-sound-pill {
+      background-color: #d4edff;
+      border-radius: 20px;
+      padding: 5px 15px;
+      margin: 5px;
+      display: inline-flex;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    .back-btn {
+      background-color: #f0f0f0;
+      color: #1a3b5d;
+      border-radius: 30px;
+      padding: 8px 20px;
+      margin-bottom: 15px;
+      border: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .back-btn:hover {
+      background-color: #e0e0e0;
+    }
+
+    #soundCardsPage {
+      display: none;
+    }
+  </style>
+</head>
+<body id="body">
+  <div class="container" id="main">
+    <div class="row justify-content-center text-center">
+      <div class="col-12">
+        <h1 class="main-title">Choose sound favorite</h1>
+        
+        <div class="sound-container d-flex flex-wrap justify-content-center" id="soundContainer">
+        </div>
+        
+        <div class="text-center mt-3">
+          <button onclick="showSoundCards()" class="get-started-btn btn" id="getStartedBtn">Get Started</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="soundCardsPage">
+    <div class="row">
+      <div class="col-12">
+    </div>
+    </div>
+    
+    <div class="row mb-3">
+      <div class="col-12">
+        <h1 class="main-title">Funny Prank Sounds</h1>
+      </div>
+    </div>    
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-2 g-md-4" id="soundCardsGrid">
+    
+    </div>
+  </div>
+  
+  <script>
+    const sounds = [
+      { id: 1, name: "Airhorn", icon: "📣", bgColor: "#ffdddd", titleColor: "#ffb3b3", image: "img.png",link:"index.html" },
+      { id: 2, name: "Fart Sound", icon: "💨", bgColor: "#d6e9ff", titleColor: "#a8ccff", image: "img.png",link:"" },
+      { id: 3, name: "Hair Clipper", icon: "✂️", bgColor: "#e0d6ff", titleColor: "#c9b3ff", image: "img.png",link:"" },
+      { id: 4, name: "Baby Sneeze", icon: "👶", bgColor: "#ffdfd6", titleColor: "#ffbba8", image: "img.png",link:"" },
+      { id: 5, name: "Breaking", icon: "🔨", bgColor: "#ffe6e6", titleColor: "#ffbdbd", image: "img.png",link:"" },
+      { id: 6, name: "Burp", icon: "😋", bgColor: "#d8ffe6", titleColor: "#a8ffcc", image: "img.png",link:"" },
+      { id: 7, name: "Car", icon: "🚗", bgColor: "#e6e6ff", titleColor: "#bebeff", image: "img.png",link:"" },
+      { id: 8, name: "Door Bell", icon: "🔔", bgColor: "#fff9d6", titleColor: "#ffed99", image: "img.png",link:"" },
+      { id: 9, name: "Gun", icon: "🔫", bgColor: "#daeeff", titleColor: "#a3d9ff", image: "img.png" ,link:""},
+      { id: 10, name: "Laughing & Clapping", icon: "👏", bgColor: "#d6f0ff", titleColor: "#a3deff", image: "img.png",link:"" },
+      { id: 11, name: "Man Cough", icon: "😷", bgColor: "#e6ffe6", titleColor: "#b8ffb8", image: "img.png",link:"" },
+      { id: 12, name: "Man Sneeze", icon: "🤧", bgColor: "#ffdbf0", titleColor: "#ffb8e0", image: "img.png",link:"" },
+      { id: 13, name: "Police", icon: "👮", bgColor: "#d6fffa", titleColor: "#a3fff3", image: "img.png",link:"" },
+      { id: 14, name: "Siren Head", icon: "🔊", bgColor: "#f7d6ff", titleColor: "#eeadff", image: "img.png",link:"" },
+      { id: 15, name: "Scary", icon: "👻", bgColor: "#fff2cc", titleColor: "#ffdb70", image: "img.png",link:"" },
+      { id: 16, name: "Toilet Flushing", icon: "🚽", bgColor: "#d6f9ff", titleColor: "#a3f0ff", image: "img.png",link:"" },
+      { id: 17, name: "Woman Cough", icon: "🤒", bgColor: "#fff0d6", titleColor: "#ffe099", image: "img.png",link:""},
+      { id: 18, name: "Woman Sneeze", icon: "🤧", bgColor: "#ffdbe6", titleColor: "#ffadc5", image: "img.png",link:"" },
+      { id: 19, name: "Fart Song", icon: "🎵", bgColor: "#ffebfc", titleColor: "#ffc9f5", image: "img.png",link:"" }
+    ];
+    const selectedSounds = [];
+    function createSoundButtons() {
+      const container = document.getElementById('soundContainer');
+      
+      sounds.forEach(sound => {
+        const button = document.createElement('div');
+        button.className = "sound-button";
+        button.setAttribute('data-id', sound.id);
+        button.innerHTML = `
+          <div class="icon" style="background-color: ${sound.bgColor}">${sound.icon}</div>
+          ${sound.name}
+        `;
+        
+        button.addEventListener('click', () => toggleSound(sound.id, button));
+        container.appendChild(button);
+      });
+    }
+    function toggleSound(id, element) {
+      const index = selectedSounds.indexOf(id);
+      if (index === -1) {
+        selectedSounds.push(id);
+        element.classList.add('selected');
+      } else {
+        selectedSounds.splice(index, 1);
+        element.classList.remove('selected');
+      }
+      
+      console.log('Selected sound IDs:', selectedSounds);
+    }
+    function showSoundCards() {
+      document.getElementById("main").style.display = "none";
+      document.getElementById("body").style.backgroundColor = "white";
+      document.getElementById("soundCardsPage").style.display = "block";
+      createSoundCardsGrid();
+    }
+    function createSoundCardsGrid() {
+      const grid = document.getElementById('soundCardsGrid');
+      grid.innerHTML = '';
+
+      const sortedSounds = [...sounds].sort((a, b) => {
+        const aSelected = selectedSounds.includes(a.id);
+        const bSelected = selectedSounds.includes(b.id);
+        
+        if (aSelected && !bSelected) return -1;
+        if (!aSelected && bSelected) return 1;
+        return 0;
+      });
+      sortedSounds.forEach(sound => {
+        const column = document.createElement('div');
+        column.className = 'col';
+        
+        column.innerHTML = `
+        <a href="${sound.link}" style="text-decoration: none; color: inherit;">
+          <div class="sound-card">
+            <div class="sound-image" style="background-color: ${sound.bgColor}">
+              <img src="${sound.image}" alt="${sound.name}">
+            </div>
+            <div class="sound-title" style="background-color: ${sound.titleColor}; color: #222;border-radius:0 0 15px 15px;">
+              ${sound.name}
+            </div>
+          </div>
+        </a>
+        `;
+        
+        grid.appendChild(column);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', createSoundButtons);
+  </script>
+</body>
+</html>
